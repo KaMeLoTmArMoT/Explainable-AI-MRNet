@@ -1,68 +1,114 @@
-# xai_mrnet
+<div align="center">
+  <h3 align="center">MRNet XAI</h3>
 
-Explainable Artificial Intelligence (XAI) applied to the MRNet dataset.
+  <p align="center">
+    Explainable deep learning for knee MRI classification on the MRNet dataset (CAM + SHAP) with an interactive viewer.
+    <br />
+    Train → generate explanations → inspect axial/coronal/sagittal slices side-by-side.
+    <br /><br />
+    <a href="https://stanfordmlgroup.github.io/competitions/mrnet/"><strong>MRNet Dataset »</strong></a>
+    ·
+    <a href="https://github.com/KaMeLoTmArMoT/mrnet_xai/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/KaMeLoTmArMoT/mrnet_xai/issues">Request Feature</a>
+  </p>
+</div>
 
-## Description
+## About The Project
 
-This repository provides tools and methods to visualize and understand the decisions made by deep learning models
-trained on the MRNet dataset. We employ techniques like Class Activation Mapping (CAM) to highlight regions in MRI
-slices that significantly influence the model's prediction, aiding in model interpretability.
+This repository contains scripts to train MRNet-style models and generate explainability artifacts (CAM/SHAP) for knee MRI exams. 
+MRNet is a knee MRI dataset/competition with 1,370 exams from Stanford University Medical Center. 
 
-## Table of Contents
+<p align="center">
+  <!-- Replace with your best screenshot (e.g. from images/TP.png) -->
+  <img src="images/TP.png" width="640" alt="Viewer example (TP)">
+</p>
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [VIS](#vis)
+## Key Features
 
-## Installation
+- Training scripts for MRNet-style classification workflows (`train_mrnet.py`, `train_classifier.py`). 
+- Generate CAM visualizations (`create_cams.py`). 
+- Generate SHAP visualizations (`create_shaps.py`). 
+- Interactive OpenCV-based viewer that shows CAM / raw slice / SHAP for axial, coronal, sagittal planes (`vis_predictions.py`). 
+- Notebook included for experimentation (`MRNet_v1_0.ipynb`). 
 
-1. Clone the repository:
+## Built With
 
-    ```bash
-    git clone https://github.com/your_username/xai_mrnet.git
-    cd xai_mrnet
-    ```
+- PyTorch + TorchVision. 
+- OpenCV, NumPy, Pandas, Matplotlib. 
+- SHAP. 
 
-2. Install the required packages
+## Getting Started
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+### Prerequisites
+
+- Python environment (venv/conda recommended).
+- MRNet dataset access (see Dataset section). 
+
+### Installation
+
+1. Clone:
+   ```bash
+   git clone https://github.com/KaMeLoTmArMoT/mrnet_xai.git
+   cd mrnet_xai
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   Note: requirements include a Git dependency (`torchsample`). 
+
+## Dataset
+
+- MRNet is distributed under a research-use agreement; the download link and dataset must not be redistributed. 
+- Official info + registration: https://stanfordmlgroup.github.io/competitions/mrnet/ 
 
 ## Usage
-1. Ensure you have the MRNet dataset available in the data/ directory.
-2. Run the main script to generate Class Activation Maps (CAM) for selected MRI slices:
 
-## Datasets
+### 1) Train a model
+Start with the training scripts:
+- `train_mrnet.py` 
+- `train_classifier.py` 
 
-The datasets used in this project are:
+### 2) Generate explanations
+Use:
+- `create_cams.py` for CAM outputs. 
+- `create_shaps.py` for SHAP outputs. 
 
-### MRNet
-- **Description**: The MRNet dataset consists of knee MRI scans collected from Stanford University Medical Center. The dataset contains 1,370 knee MRI exams performed at Stanford University Medical Center.
-- **Link**: [MRNet Competition](https://stanfordmlgroup.github.io/competitions/mrnet/)
-- **Citation**:
+### 3) View predictions + explanations
+Run the viewer:
+- `vis_predictions.py` 
 
-### Knee MRI
-- **Description**: This is a database of knee MRI scans and was part of a competition to stimulate research in automated techniques for the interpretation of 3D MRI scans.
-- **Link**: [Knee MRI Dataset](http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/)
-- **Citation**:
+#### Viewer key bindings (current)
 
-## Vis
-The "Vis" program is designed to visualize MRI images of patients. It can render CAMs (Class Activation Maps), raw MRI slices, and SHAP (SHapley Additive exPlanations) images. Each patient's data is labeled and presented in an organized interface that displays the axial, coronal, and sagittal planes. Additionally, the program provides a prediction label and compares it with the actual ground truth to indicate the accuracy of the prediction in the form of "True Positive", "True Negative", "False Positive", and "False Negative".
+- Quit: `q` or `Esc`. 
+- Change slice index (per plane):
+  - Decrease: `1` (axial), `2` (coronal), `3` (sagittal). 
+  - Increase: `7` (axial), `8` (coronal), `9` (sagittal). 
+- Change case:
+  - Prev/next: `4` / `6`. 
+  - Jump to case: `Enter` then type case id (in console). 
+- Switch SHAP source: `v` (if multiple sources exist). 
+- Zoom: `+` / `-`, reset with `0`. 
 
-### Key Bindings:
-TODO
+## Examples
 
-### Usage
+<p align="center">
+  <img src="images/TP.png" width="350" alt="True Positive">
+  <img src="images/TN.png" width="350" alt="True Negative">
+</p>
+<p align="center">
+  <img src="images/FP.png" width="350" alt="False Positive">
+  <img src="images/FN.png" width="350" alt="False Negative">
+</p>
 
-Navigating the Interface: Once the program starts, you will see the MRI images displayed. Use the arrow keys to navigate through different patients or change visualization types.
+## Contributing
 
-Understanding the Display: The top section of the interface displays information about the patient, the ground truth label, the prediction label, and its status (e.g., True Negative). Below that, you will see the MRI images for the axial, coronal, and sagittal planes. The left sidebar indicates the visualization type currently being viewed.
+Contributions are welcome:
+1. Fork the repo
+2. Create a feature branch
+3. Open a PR
 
-Exiting: To exit the program, simply press the Esc key.
+## License
 
-# Examples
-<img src="./images/TP.png">
-<img src="./images/TN.png">
-<img src="./images/FP.png">
-<img src="./images/FN.png">
